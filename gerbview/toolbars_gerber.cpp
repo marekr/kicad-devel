@@ -35,7 +35,7 @@
 #include <gerbview_frame.h>
 #include <gerbview_id.h>
 #include <hotkeys.h>
-#include <class_GERBER.h>
+#include <class_gerber_image.h>
 #include <class_gbr_layer_box_selector.h>
 #include <class_DCodeSelectionbox.h>
 #include <dialog_helpers.h>
