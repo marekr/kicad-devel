@@ -175,10 +175,13 @@ void GERBER_LAYER_WIDGET::onRightDownLayerRow( wxMouseEvent& event )
                                          _("Move down") ) );
         }
 
-        menu.AppendSeparator();
-
-        menu.SetRefData(new LAYER_WIDGT_ROW(rowId));
     }
+
+    menu.SetRefData(new LAYER_WIDGT_ROW(rowId));
+
+    menu.Append( new wxMenuItem( &menu, ID_LAYER_DELETE,
+                                 _("Delete layer") ) );
+    menu.AppendSeparator();
 
     baseRightClickMenu(menu);
 
@@ -263,7 +266,17 @@ void GERBER_LAYER_WIDGET::onPopupSelection( wxCommandEvent& event )
             myframe->GetCanvas()->Refresh();
         }
         break;
+    case ID_LAYER_DELETE:
+        {
+            wxMenu* menu = (wxMenu*) event.GetEventObject();
+            LAYER_WIDGT_ROW* const layerRowData = (LAYER_WIDGT_ROW*)menu->GetRefData();
+            g_GERBER_List.RemoveImage(layerRowData->m_row);
 
+            myframe->ReFillLayerWidget();
+            myframe->syncLayerBox();
+            myframe->GetCanvas()->Refresh();
+        }
+            break;
     case ID_SORT_GBR_LAYERS:
         g_GERBER_List.SortImagesByZOrder();
         myframe->ReFillLayerWidget();
@@ -274,7 +287,7 @@ void GERBER_LAYER_WIDGET::onPopupSelection( wxCommandEvent& event )
 }
 
 
-bool  GERBER_LAYER_WIDGET::OnLayerSelected()
+bool GERBER_LAYER_WIDGET::OnLayerSelected()
 {
     if( !m_alwaysShowActiveLayer )
         return false;
@@ -294,9 +307,12 @@ void GERBER_LAYER_WIDGET::ReFill()
 
     ClearLayerRows();
 
-    for( size_t layer = 0; layer < g_GERBER_List.GetImageCount(); ++layer )
+    for (std::vector<GERBER_IMAGE*>::iterator git = g_GERBER_List.m_GERBER_List.begin(); git != g_GERBER_List.m_GERBER_List.end(); ++git)
     {
-        wxString msg = g_GERBER_List.GetDisplayName( layer );
+        GERBER_IMAGE* gerber = *git;
+        wxString msg = gerber->GetDisplayName();
+
+        int layer = git-g_GERBER_List.m_GERBER_List.begin();
 
         AppendLayerRow( LAYER_WIDGET::ROW( msg, layer,
                         myframe->GetLayerColor( layer ), wxEmptyString, true ) );

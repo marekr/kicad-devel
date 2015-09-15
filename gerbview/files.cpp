@@ -44,7 +44,6 @@ void GERBVIEW_FRAME::OnGbrFileHistory( wxCommandEvent& event )
 
     if( !fn.IsEmpty() )
     {
-        Erase_Current_DrawLayer( false );
         LoadGerberFiles( fn );
     }
 }
@@ -58,7 +57,6 @@ void GERBVIEW_FRAME::OnDrlFileHistory( wxCommandEvent& event )
 
     if( !fn.IsEmpty() )
     {
-        Erase_Current_DrawLayer( false );
         LoadExcellonFiles( fn );
     }
 }
@@ -72,7 +70,6 @@ void GERBVIEW_FRAME::Files_io( wxCommandEvent& event )
     switch( id )
     {
     case wxID_FILE:
-        Erase_Current_DrawLayer( false );
         LoadGerberFiles( wxEmptyString );
         break;
 
