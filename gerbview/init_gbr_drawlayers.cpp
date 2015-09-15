@@ -45,7 +45,7 @@ bool GERBVIEW_FRAME::Clear_DrawLayers( bool query )
             return false;
     }
 
-    g_GERBER_List.ClearList();
+    m_GERBER_List->ClearList();
 
     GetGerberLayout()->SetBoundingBox( EDA_RECT() );
 

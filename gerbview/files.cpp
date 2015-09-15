@@ -179,7 +179,7 @@ bool GERBVIEW_FRAME::LoadGerberFiles( const wxString& aFullFileName )
         {
             UpdateFileHistory( m_lastFileName );
 
-            layer = g_GERBER_List.GetImageCount()-1;
+            layer = m_GERBER_List->GetImageCount()-1;
 
             setActiveLayer( layer, false );
         }
@@ -254,7 +254,7 @@ bool GERBVIEW_FRAME::LoadExcellonFiles( const wxString& aFullFileName )
             // Update the list of recentdrill files.
             UpdateFileHistory( filename.GetFullPath(),  &m_drillFileHistory );
 
-            layer = g_GERBER_List.GetImageCount()-1;
+            layer = m_GERBER_List->GetImageCount()-1;
 
             setActiveLayer( layer, false );
         }
