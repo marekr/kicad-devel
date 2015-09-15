@@ -34,6 +34,7 @@
 #include <gerbview_id.h>
 #include <class_gerbview_layer_widget.h>
 #include <wildcards_and_files_ext.h>
+#include "class_GERBER.h"
 
 
 void GERBVIEW_FRAME::OnGbrFileHistory( wxCommandEvent& event )
@@ -178,7 +179,7 @@ bool GERBVIEW_FRAME::LoadGerberFiles( const wxString& aFullFileName )
         {
             UpdateFileHistory( m_lastFileName );
 
-            layer = getNextAvailableLayer( layer );
+            layer = g_GERBER_List.GetImageCount()-1;
 
             setActiveLayer( layer, false );
         }
@@ -253,15 +254,7 @@ bool GERBVIEW_FRAME::LoadExcellonFiles( const wxString& aFullFileName )
             // Update the list of recentdrill files.
             UpdateFileHistory( filename.GetFullPath(),  &m_drillFileHistory );
 
-            layer = getNextAvailableLayer( layer );
-
-            if( layer == NO_AVAILABLE_LAYERS )
-            {
-                wxString msg = wxT( "No more empty available layers.\n"
-                                    "The remaining gerber files will not be loaded." );
-                wxMessageBox( msg );
-                break;
-            }
+            layer = g_GERBER_List.GetImageCount()-1;
 
             setActiveLayer( layer, false );
         }
