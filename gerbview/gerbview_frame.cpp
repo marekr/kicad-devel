@@ -92,8 +92,6 @@ GERBVIEW_FRAME::GERBVIEW_FRAME( KIWAY* aKiway, wxWindow* aParent ):
 
     SetLayout( new GBR_LAYOUT() );
 
-    SetVisibleLayers( -1 );         // All draw layers visible.
-
     SetScreen( new GBR_SCREEN( GetPageSettings().GetSizeIU() ) );
 
     // Create the PCB_LAYER_WIDGET *after* SetLayout():
@@ -523,45 +521,6 @@ bool GERBVIEW_FRAME::IsElementVisible( GERBER_VISIBLE_ID aItemIdVisible ) const
 void GERBVIEW_FRAME::SetVisibleAlls()
 {
 }
-
-/**
- * Function GetVisibleLayers
- * is a proxy function that calls the correspondent function in m_BoardSettings
- * Returns a bit-mask of all the layers that are visible
- * @return int - the visible layers in bit-mapped form.
- */
-long GERBVIEW_FRAME::GetVisibleLayers() const
-{
-    return -1;    // TODO
-}
-
-
-/**
- * Function SetVisibleLayers
- * is a proxy function that calls the correspondent function in m_BoardSettings
- * changes the bit-mask of visible layers
- * @param aLayerMask = The new bit-mask of visible layers
- */
-void GERBVIEW_FRAME::SetVisibleLayers( long aLayerMask )
-{
-//    GetGerberLayout()->SetVisibleLayers( aLayerMask );
-}
-
-
-/**
- * Function IsLayerVisible
- * tests whether a given layer is visible
- * @param aLayer = The layer to be tested
- * @return bool - true if the layer is visible.
- */
-bool GERBVIEW_FRAME::IsLayerVisible( int aLayer ) const
-{
-    if( ! m_DisplayOptions.m_IsPrinting )
-        return m_LayersManager->IsLayerVisible( aLayer );
-    else
-        return GetGerberLayout()->IsLayerPrintable( aLayer );
-}
-
 
 /**
  * Function GetVisibleElementColor

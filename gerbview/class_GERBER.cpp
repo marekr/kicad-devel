@@ -91,6 +91,7 @@ GERBER_IMAGE::GERBER_IMAGE( GERBVIEW_FRAME* aParent )
 
     m_Selected_Tool = FIRST_DCODE;
     m_FileFunction = NULL;          // file function parameters
+    m_Visible = true;
 
     ResetDefaultValues();
 
