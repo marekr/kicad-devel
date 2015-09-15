@@ -30,15 +30,12 @@
 #include <fctsys.h>
 #include <common.h>
 #include <class_drawpanel.h>
-#include <confirm.h>
 #include <macros.h>
 
 #include <gerbview.h>
 #include <gerbview_frame.h>
 #include <class_GERBER.h>
 #include <class_X2_gerber_attributes.h>
-
-#include <algorithm>
 
 
 /**
@@ -126,7 +123,7 @@ D_CODE* GERBER_IMAGE::GetDCODE( int aDCODE, bool create )
 {
     unsigned ndx = aDCODE - FIRST_DCODE;
 
-    if( ndx < (unsigned) DIM( m_Aperture_List ) )
+    if( ndx < DIM( m_Aperture_List ) )
     {
         // lazily create the D_CODE if it does not exist.
         if( create )
@@ -283,17 +280,6 @@ void GERBER_IMAGE::ReportMessage( const wxString aMessage )
 
 
 /**
- * Function ClearMessageList
- * Clear the message list
- * Call it before reading a Gerber file
- */
-void GERBER_IMAGE::ClearMessageList()
-{
-    m_Parent->ClearMessageList();
-}
-
-
-/**
  * Function StepAndRepeatItem
  * Gerber format has a command Step an Repeat
  * This function must be called when reading a gerber file and
@@ -307,7 +293,7 @@ void GERBER_IMAGE::StepAndRepeatItem( const GERBER_DRAW_ITEM& aItem )
         GetLayerParams().m_YRepeatCount < 2 )
         return; // Nothing to repeat
     // Duplicate item:
-    wxString msg;
+
     for( int ii = 0; ii < GetLayerParams().m_XRepeatCount; ii++ )
     {
         for( int jj = 0; jj < GetLayerParams().m_YRepeatCount; jj++ )

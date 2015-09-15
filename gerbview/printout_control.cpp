@@ -28,18 +28,13 @@
  */
 
 
-// Set this to 1 if you want to test PostScript printing under MSW.
-#define wxTEST_POSTSCRIPT_IN_MSW 1
-
 #include <fctsys.h>
 #include <pgm_base.h>
 #include <gr_basic.h>
 #include <class_drawpanel.h>
-#include <confirm.h>
 #include <base_units.h>
 #include <wxstruct.h>
 #include <class_base_screen.h>
-#include <layers_id_colors_and_visibility.h>
 
 #include <gerbview_frame.h>
 
@@ -186,13 +181,6 @@ void BOARD_PRINTOUT_CONTROLLER::DrawPage()
     // Get the final size of the DC in pixels
     wxSize       PlotAreaSizeInPixels;
     dc->GetSize( &PlotAreaSizeInPixels.x, &PlotAreaSizeInPixels.y );
-
-    double scalex, scaley;
-    dc->GetUserScale( &scalex, &scaley );
-
-    wxSize PlotAreaSizeInUserUnits;
-    PlotAreaSizeInUserUnits.x = KiROUND( PlotAreaSizeInPixels.x / scalex );
-    PlotAreaSizeInUserUnits.y = KiROUND( PlotAreaSizeInPixels.y / scaley );
 
     // In some cases the plot origin is the centre of the board outline rather than the center
     // of the selected paper size.
