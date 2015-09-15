@@ -582,13 +582,9 @@ bool GERBER_IMAGE::Execute_DCODE_Command( char*& text, int D_commande )
     GERBER_DRAW_ITEM* gbritem;
     GBR_LAYOUT*       layout = m_Parent->GetGerberLayout();
 
-    int activeLayer = m_Parent->getActiveLayer();
-
     int      dcode = 0;
     D_CODE*  tool  = NULL;
     wxString msg;
-
-//    D( printf( "%22s: D_CODE<%d>\n", __func__, D_commande ); )
 
     if( D_commande >= FIRST_DCODE )  // This is a "Set tool" command
     {
@@ -621,7 +617,7 @@ bool GERBER_IMAGE::Execute_DCODE_Command( char*& text, int D_commande )
                 gbritem    = new GERBER_DRAW_ITEM( layout, this );
                 layout->m_Drawings.Append( gbritem );
                 gbritem->m_Shape = GBR_POLYGON;
-                gbritem->SetLayer( activeLayer );
+                gbritem->SetLayer( m_GraphicLayer );
                 gbritem->m_Flashed = false;
             }
 
@@ -631,10 +627,6 @@ bool GERBER_IMAGE::Execute_DCODE_Command( char*& text, int D_commande )
             case GERB_INTERPOL_ARC_POS:
                 gbritem = layout->m_Drawings.GetLast();
 
-                //               D( printf( "Add arc poly %d,%d to %d,%d fill %d interpol %d 360_enb %d\n",
-                //                          m_PreviousPos.x, m_PreviousPos.y, m_CurrentPos.x,
-                //                          m_CurrentPos.y, m_PolygonFillModeState,
-//                           m_Iterpolation, m_360Arc_enbl ); )
                 fillArcPOLY( gbritem, m_PreviousPos,
                              m_CurrentPos, m_IJPos,
                              ( m_Iterpolation == GERB_INTERPOL_ARC_NEG ) ? false : true,
@@ -643,11 +635,6 @@ bool GERBER_IMAGE::Execute_DCODE_Command( char*& text, int D_commande )
 
             default:
                 gbritem = layout->m_Drawings.GetLast();
-
-//                D( printf( "Add poly edge %d,%d to %d,%d fill %d\n",
-//                           m_PreviousPos.x, m_PreviousPos.y,
-//                           m_CurrentPos.x, m_CurrentPos.y, m_Iterpolation ); )
-
                 gbritem->m_Start = m_PreviousPos;       // m_Start is used as temporary storage
                 if( gbritem->m_PolyCorners.size() == 0 )
                     gbritem->m_PolyCorners.push_back( gbritem->m_Start );
@@ -697,10 +684,7 @@ bool GERBER_IMAGE::Execute_DCODE_Command( char*& text, int D_commande )
                 gbritem = new GERBER_DRAW_ITEM( layout, this );
                 layout->m_Drawings.Append( gbritem );
 
-//                D( printf( "Add line %d,%d to %d,%d\n",
-//                           m_PreviousPos.x, m_PreviousPos.y,
-//                            m_CurrentPos.x, m_CurrentPos.y ); )
-                fillLineGBRITEM( gbritem, dcode, activeLayer, m_PreviousPos,
+                fillLineGBRITEM( gbritem, dcode, m_GraphicLayer, m_PreviousPos,
                                  m_CurrentPos, size, GetLayerParams().m_LayerNegative );
                 StepAndRepeatItem( *gbritem );
                 break;
@@ -716,11 +700,7 @@ bool GERBER_IMAGE::Execute_DCODE_Command( char*& text, int D_commande )
                 gbritem = new GERBER_DRAW_ITEM( layout, this );
                 layout->m_Drawings.Append( gbritem );
 
-//                D( printf( "Add arc %d,%d to %d,%d center %d, %d interpol %d 360_enb %d\n",
-//                           m_PreviousPos.x, m_PreviousPos.y, m_CurrentPos.x,
-//                           m_CurrentPos.y, m_IJPos.x,
-//                            m_IJPos.y, m_Iterpolation, m_360Arc_enbl ); )
-                fillArcGBRITEM( gbritem, dcode, activeLayer, m_PreviousPos,
+                fillArcGBRITEM( gbritem, dcode, m_GraphicLayer, m_PreviousPos,
                                 m_CurrentPos, m_IJPos, size,
                                 ( m_Iterpolation == GERB_INTERPOL_ARC_NEG ) ?
                                 false : true, m_360Arc_enbl, GetLayerParams().m_LayerNegative );
@@ -754,7 +734,7 @@ bool GERBER_IMAGE::Execute_DCODE_Command( char*& text, int D_commande )
             gbritem = new GERBER_DRAW_ITEM( layout, this );
             layout->m_Drawings.Append( gbritem );
             fillFlashedGBRITEM( gbritem, aperture,
-                                dcode, activeLayer, m_CurrentPos,
+                                dcode, m_GraphicLayer, m_CurrentPos,
                                 size, GetLayerParams().m_LayerNegative );
             StepAndRepeatItem( *gbritem );
             m_PreviousPos = m_CurrentPos;

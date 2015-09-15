@@ -31,9 +31,15 @@
 #include <fctsys.h>
 #include <common.h>
 #include <class_drawpanel.h>
+#include <confirm.h>
+#include <macros.h>
 #include <trigo.h>
+#include <gr_basic.h>
+#include <base_units.h>
 
+#include <gerbview.h>
 #include <gerbview_frame.h>
+#include <class_gerber_draw_item.h>
 #include <class_GERBER.h>
 
 #define DEFAULT_SIZE 100
@@ -147,7 +153,6 @@ int D_CODE::GetShapeDim( GERBER_DRAW_ITEM* aParent )
 
     return dim;
 }
-
 
 void D_CODE::DrawFlashedShape(  GERBER_DRAW_ITEM* aParent,
                                 EDA_RECT* aClipBox, wxDC* aDC, EDA_COLOR_T aColor,
