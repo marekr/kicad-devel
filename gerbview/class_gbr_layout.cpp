@@ -30,6 +30,7 @@
 #include <fctsys.h>
 #include <class_gbr_layout.h>
 #include <class_GERBER.h>
+#include <class_gerber_image_list.h>
 
 GBR_LAYOUT::GBR_LAYOUT()
 {
