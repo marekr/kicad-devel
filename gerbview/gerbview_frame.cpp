@@ -604,27 +604,6 @@ EDA_COLOR_T GERBVIEW_FRAME::GetNegativeItemsColor() const
         return GetDrawBgColor();
 }
 
-
-/*
- * Function GetLayerColor
- * gets a layer color for any valid layer.
- */
-EDA_COLOR_T GERBVIEW_FRAME::GetLayerColor( int aLayer ) const
-{
-    return m_colorsSettings->GetLayerColor( aLayer );
-}
-
-
-/**
- * Function SetLayerColor
- * changes a layer color for any valid layer.
- */
-void GERBVIEW_FRAME::SetLayerColor( int aLayer, EDA_COLOR_T aColor )
-{
-    m_colorsSettings->SetLayerColor( aLayer, aColor );
-}
-
-
 /**
  * Function getActiveLayer
  * returns the active layer

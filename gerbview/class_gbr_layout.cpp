@@ -180,11 +180,11 @@ void GBR_LAYOUT::Draw( EDA_DRAW_PANEL* aPanel,
         if( !gerber->m_Visible )
             continue;
 
-        EDA_COLOR_T color = gerbFrame->GetLayerColor( layer );
+        EDA_COLOR_T color = gerber->m_DrawColor;
 
         // Force black and white draw mode on request:
         if( aPrintBlackAndWhite )
-            gerbFrame->SetLayerColor( layer, aBGColor == BLACK ? WHITE : BLACK );
+            gerber->m_DrawColor = (aBGColor == BLACK ? WHITE : BLACK);
 
         if( useBufferBitmap )
         {
@@ -235,7 +235,7 @@ void GBR_LAYOUT::Draw( EDA_DRAW_PANEL* aPanel,
         if( gerber->m_ImageNegative )
         {
             // Draw background negative (i.e. in graphic layer color) for negative images.
-            EDA_COLOR_T color = gerbFrame->GetLayerColor( layer );
+            EDA_COLOR_T color = gerber->m_DrawColor;
 
             GRSetDrawMode( &layerDC, GR_COPY );
             GRFilledRect( &drawBox, plotDC, drawBox.GetX(), drawBox.GetY(),
@@ -267,7 +267,7 @@ void GBR_LAYOUT::Draw( EDA_DRAW_PANEL* aPanel,
         }
 
         if( aPrintBlackAndWhite )
-            gerbFrame->SetLayerColor( layer, color );
+            gerber->m_DrawColor = color;
     }
 
     if( doBlit && useBufferBitmap )     // Blit is used only if aDrawMode >= 0
