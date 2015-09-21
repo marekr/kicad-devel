@@ -32,7 +32,6 @@
 #include <gerbview_frame.h>
 #include <gerbview_id.h>
 #include <class_gerber_image.h>
-#include <class_gerber_image_list.h>
 
 #include <select_layers_to_pcb.h>
 
@@ -122,7 +121,7 @@ void LAYERS_MAP_DIALOG::initDialog()
     m_gerberActiveLayersCount = 0;
     for( int ii = 0; ii < GERBER_DRAWLAYERS_COUNT; ++ii )
     {
-        if( m_Parent->m_GERBER_List->GetGerberByListIndex( ii ) == NULL )
+        if( m_Parent->GetGerberLayout()->GetGerberByListIndex( ii ) == NULL )
             break;
 
         if( (pcb_layer_num == m_exportBoardCopperLayersCount - 1)
@@ -190,7 +189,7 @@ void LAYERS_MAP_DIALOG::initDialog()
                                  wxRIGHT | wxLEFT, 5 );
 
         /* Add file name and extension without path. */
-        wxFileName fn( m_Parent->m_GERBER_List->GetGerberByListIndex( ii )->m_FileName );
+        wxFileName fn( m_Parent->GetGerberLayout()->GetGerberByListIndex( ii )->m_FileName );
         label = new wxStaticText( this, wxID_STATIC, fn.GetFullName(),
                                   wxDefaultPosition, wxDefaultSize );
         flexColumnBoxSizer->Add( label, 0,
